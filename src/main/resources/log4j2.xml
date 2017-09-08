@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+
+	<Properties>
+		<Property name="application.name">backend</Property>
+		<!-- Commenté pour visibilité par tout le monde -->
+		<!-- Property name="code.boite">0035</Property-->
+		<Property name="code.boite">OPEN</Property>
+		<Property name="code.efs">NA</Property>
+		<Property name="log.host">localhost</Property>
+		<Property name="log.port">6815</Property>
+		<!-- env.app correspond à l'id unique de votre env (app.env + app.site + app.peri)
+		  c'est ce qui vous permettra de faire le tri au niveau de Kibana entre vos divers environnements-->
+		<Property name="env.app">DEV</Property>
+	</Properties>
+
+	<Appenders>
+
+		<RollingRandomAccessFile name="MainLog"
+			fileName="./logs/${application.name}.log" filePattern="./logs/%d{yyyy-MM-dd}-%i-${application.name}..log.gz">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss.SSS} %-5level FT:%MDC{FishTag} %c{1.} - %msg%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<!-- tous les jours (voir filePattern -->
+				<TimeBasedTriggeringPolicy />
+				<!-- ou tout les 200 M -->
+				<SizeBasedTriggeringPolicy size="200 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingRandomAccessFile>
+
+
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="--> %d{HH:mm:ss.SSS} [%t] %-5level %MDC{FishTag} %c{1.} - %msg%n" />
+		</Console>
+
+		<!-- les variables log.* passées en parametre de la JVM seront prise en charge en priorité sur celle definie dans ce fichier -->
+		<!-- 
+		<Socket name="LogstashSocket" host="${log.host}" port="${log.port}" protocol="UDP" 
+			reconnectionDelayMillis="2000" ignoreExceptions="false"> 
+			<JSONLayout complete="false" compact="true" properties="true" eventEol="true" /> 
+		</Socket> 
+		
+		<Failover name="KibanaFailover" primary="LogstashSocket" retryIntervalSeconds="30"> 
+			<Failovers> 
+				<AppenderRef ref="MainLog" /> 
+			</Failovers> 
+		</Failover> 
+		-->
+
+<!-- 		<Rewrite name="Kibana"> -->
+<!-- 			Ici on force des valeurs dans le ThreadContext / MDC -->
+<!-- 			<PropertiesRewritePolicy> -->
+<!-- 				<Property name="app">${application.name}</Property> -->
+<!-- 				<Property name="cdboite">${code.boite}</Property> -->
+<!-- 				ne mettre la ligne ci-dessous que si ça a du sens -->
+<!-- 				<Property name="cdefs">${code.efs}</Property> -->
+<!-- 			</PropertiesRewritePolicy> -->
+<!-- 			<AppenderRef ref="KibanaFailover" /> -->
+<!-- 			 Déclare un appender Console avec un JSONLayout pour debugger <AppenderRef ref="JSONConsole"/> --> 
+<!-- 		</Rewrite> -->
+		
+	</Appenders>
+
+	<Loggers>
+
+		<Root level="info">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="MainLog" />
+		</Root>
+
+
+	</Loggers>
+</Configuration>
