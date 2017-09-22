@@ -5,16 +5,17 @@ import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.demo.backend.others.aspect.DemoAspect;
-
 @SpringBootApplication
 @EnableAspectJAutoProxy
+@ComponentScan(basePackages = "com.demo.backend")
 @Controller
+@EnableAsync
 public class BackendApplication extends SpringBootServletInitializer {
 
 	@RequestMapping("/")
@@ -37,9 +38,8 @@ public class BackendApplication extends SpringBootServletInitializer {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	@Bean
-	public DemoAspect aspect() {
-		return new DemoAspect();
-	}
+	/*
+	 * @Bean Guts getGuts() { return new Guts(); }
+	 */
 
 }

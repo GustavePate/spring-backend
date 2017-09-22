@@ -1,0 +1,19 @@
+server:
+  port: 8181
+management:
+  security:
+    enabled: false
+spring:
+  profiles:
+    active: rec
+  main:
+    show-banner: false
+  mustache:
+    cache: false
+  # danger, enable shutdown and
+  application:
+    admin:
+      enabled: true 
+app:
+  name: "Catalyst Springboot"
+  description: "${app.name} est une nouvelle version du socle applicatif"
