@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.demo.backend.di.Youpi;
+import com.demo.backend.di.YoupiContainer;
 import com.demo.backend.others.springguts.Guts;
 
 @RunWith(SpringRunner.class)
@@ -26,7 +26,7 @@ public class GutsTest {
 	private Guts guts;
 
 	@Inject
-	private Youpi youp;
+	private YoupiContainer youp;
 
 	@Test
 	public void accessSpringInternals() {
